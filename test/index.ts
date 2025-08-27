@@ -29,6 +29,20 @@ expect.type<TypeError | undefined>(Bounce.ignore(new TypeError(), 'boom', { retu
 expect.type<RangeError | undefined>(Bounce.ignore(null, 'boom', { return: true, override: new RangeError() }));
 expect.type<(TypeError & { prop: string }) | undefined>(Bounce.ignore(new TypeError(), 'boom', { return: true, decorate: { prop: 'ok' } }));
 
+// Narrows the error type
+
+{
+    const error = new TypeError() as any;
+    Bounce.ignore(error, TypeError);
+    expect.type<Error>(error);
+}
+
+{
+    const error = new Boom.Boom() as any;
+    Bounce.ignore(error, 'boom');
+    expect.type<Boom.Boom>(error);
+}
+
 expect.error(Bounce.ignore(new Error()));
 expect.error(Bounce.ignore(new Error(), 'unknown'));
 expect.error(Bounce.ignore(new Error(), 'boom', true));

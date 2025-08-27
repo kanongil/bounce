@@ -63,6 +63,10 @@ export function ignore<E extends Error, D extends Decoration>(err: any, types: T
 export function ignore<T extends object, D extends Decoration>(err: T, types: TypeRule | TypeRule[], options: BounceOptions & { return: true, decorate: D }): (T & D) | undefined;
 export function ignore<E extends Error>(err: any, types: TypeRule | TypeRule[], options: BounceOptions & { return: true, override: E }): E | undefined;
 export function ignore<T>(err: T, types: TypeRule | TypeRule[], options: BounceOptions & { return: true }): T | undefined;
+export function ignore(err: any, types: 'boom', options: { return?: false | undefined }): asserts err is Boom;
+export function ignore(err: any, types: 'boom'): asserts err is Boom;
+export function ignore(err: any, types: TypeRule | TypeRule[], options: { return?: false | undefined }): asserts err is Error;
+export function ignore(err: any, types: TypeRule | TypeRule[]): asserts err is Error;
 export function ignore(err: any, types: TypeRule | TypeRule[], options?: BounceOptions): void;
 
 type Action = 'rethrow' | 'ignore';
