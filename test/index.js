@@ -457,24 +457,6 @@ describe('Bounce', () => {
         });
     });
 
-    describe('isError()', () => {
-
-        it('identifies Error as error', () => {
-
-            expect(Bounce.isError(new Error())).to.be.true();
-        });
-
-        it('identifies Boom as error', () => {
-
-            expect(Bounce.isError(Boom.badRequest())).to.be.true();
-        });
-
-        it('identifies object as non-error', () => {
-
-            expect(Bounce.isError({})).to.be.false();
-        });
-    });
-
     describe('isSystem()', () => {
 
         it('identifies EvalError as system', () => {

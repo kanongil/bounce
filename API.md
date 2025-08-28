@@ -105,10 +105,6 @@ actions where:
 - `types` - same as the `types` argument passed to `rethrow()` or `ignore()`. Defaults to `'system'`.
 - `options` - same as the `options` argument passed to `rethrow()` or `ignore()`.
 
-### `isError(err)`
-
-Returns `true` when `err` is an error.
-
 ### `isSystem(err)`
 
 Return `true` when `err` is one of:
