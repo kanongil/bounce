@@ -35,7 +35,7 @@ describe('Bounce', () => {
 
     describe('rethrow()', () => {
 
-        it('rethrows all errors', () => {
+        it('throws TypeError on missing types', () => {
 
             const orig = new Error('Something');
 
@@ -46,8 +46,8 @@ describe('Bounce', () => {
                 var error = err;
             }
 
-            expect(error).to.shallow.equal(orig);
-            expect(error).to.be.an.error('Something');
+            expect(error).to.not.shallow.equal(orig);
+            expect(error).to.be.an.error(TypeError);
         });
 
         it('rethrows only system errors', () => {
@@ -255,6 +255,19 @@ describe('Bounce', () => {
             expect(error).to.shallow.equal(orig);
             expect(error).to.be.an.error('Something');
         });
+
+        it('preserves non-errors', () => {
+
+            try {
+                Bounce.rethrow('error', []);
+            }
+            catch (err) {
+                var error = err;
+            }
+
+            expect(error).to.not.exist();
+        });
+
     });
 
     describe('ignore()', () => {
@@ -330,6 +343,21 @@ describe('Bounce', () => {
 
             expect(error3).to.not.exist();
         });
+
+        it('always throws non-errors', () => {
+
+            const orig = 'error';
+
+            try {
+                Bounce.ignore(orig, []);
+            }
+            catch (err) {
+                var error = err;
+            }
+
+            expect(error).to.shallow.equal(orig);
+        });
+
     });
 
     describe('background()', () => {
