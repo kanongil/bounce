@@ -212,6 +212,20 @@ describe('Bounce', () => {
             expect(error2).to.be.an.error('Something');
         });
 
+        it('ignores non-errors matching a pattern', () => {
+
+            const nonErr = { x: 1 };
+
+            try {
+                Bounce.rethrow(nonErr, { x: 1 });
+            }
+            catch (err) {
+                var error = err;
+            }
+
+            expect(error).to.not.exist();
+        });
+
         it('rethrows a decorated error', () => {
 
             const orig = new Error('Something');
