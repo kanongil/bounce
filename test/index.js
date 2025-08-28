@@ -74,7 +74,7 @@ describe('Bounce', () => {
         it('rethrows only boom errors', () => {
 
             try {
-                Bounce.rethrow(new Error('Something'), 'boom');
+                Bounce.rethrow(new Error('Something'), Boom.Boom);
             }
             catch (err) {
                 var error1 = err;
@@ -83,7 +83,7 @@ describe('Bounce', () => {
             expect(error1).to.not.exist();
 
             try {
-                Bounce.rethrow(Boom.badRequest('Something'), 'boom');
+                Bounce.rethrow(Boom.badRequest('Something'), Boom.Boom);
             }
             catch (err) {
                 var error2 = err;
@@ -95,7 +95,7 @@ describe('Bounce', () => {
         it('rethrows only boom/system errors', () => {
 
             try {
-                Bounce.rethrow(new Error('Something'), ['boom', 'system']);
+                Bounce.rethrow(new Error('Something'), [Boom.Boom, 'system']);
             }
             catch (err) {
                 var error1 = err;
@@ -104,7 +104,7 @@ describe('Bounce', () => {
             expect(error1).to.not.exist();
 
             try {
-                Bounce.rethrow(Boom.badRequest('Something'), ['boom', 'system']);
+                Bounce.rethrow(Boom.badRequest('Something'), [Boom.Boom, 'system']);
             }
             catch (err) {
                 var error2 = err;
@@ -113,7 +113,7 @@ describe('Bounce', () => {
             expect(error2).to.be.an.error('Something');
 
             try {
-                Bounce.rethrow(new SyntaxError('Something'), ['boom', 'system']);
+                Bounce.rethrow(new SyntaxError('Something'), [Boom.Boom, 'system']);
             }
             catch (err) {
                 var error3 = err;
@@ -283,7 +283,7 @@ describe('Bounce', () => {
         it('ignores boom errors', () => {
 
             try {
-                Bounce.ignore(new Error('Something'), 'boom');
+                Bounce.ignore(new Error('Something'), Boom.Boom);
             }
             catch (err) {
                 var error1 = err;
@@ -292,7 +292,7 @@ describe('Bounce', () => {
             expect(error1).to.be.an.error('Something', Error);
 
             try {
-                Bounce.ignore(Boom.badRequest('Something'), 'boom');
+                Bounce.ignore(Boom.badRequest('Something'), Boom.Boom);
             }
             catch (err) {
                 var error2 = err;
@@ -304,7 +304,7 @@ describe('Bounce', () => {
         it('ignores boom/system errors', () => {
 
             try {
-                Bounce.ignore(new Error('Something'), ['boom', 'system']);
+                Bounce.ignore(new Error('Something'), [Boom.Boom, 'system']);
             }
             catch (err) {
                 var error1 = err;
@@ -313,7 +313,7 @@ describe('Bounce', () => {
             expect(error1).to.be.an.error('Something', Error);
 
             try {
-                Bounce.ignore(Boom.badRequest('Something'), ['boom', 'system']);
+                Bounce.ignore(Boom.badRequest('Something'), [Boom.Boom, 'system']);
             }
             catch (err) {
                 var error2 = err;
@@ -322,7 +322,7 @@ describe('Bounce', () => {
             expect(error2).to.not.exist();
 
             try {
-                Bounce.ignore(new ReferenceError('Something'), ['boom', 'system']);
+                Bounce.ignore(new ReferenceError('Something'), [Boom.Boom, 'system']);
             }
             catch (err) {
                 var error3 = err;
@@ -457,29 +457,6 @@ describe('Bounce', () => {
         });
     });
 
-    describe('isBoom()', () => {
-
-        it('identifies Boom as Boom', () => {
-
-            expect(Bounce.isBoom(Boom.badRequest())).to.be.true();
-        });
-
-        it('identifies EvalError as non-boom', () => {
-
-            expect(Bounce.isBoom(new EvalError())).to.be.false();
-        });
-
-        it('identifies object as non-boom', () => {
-
-            expect(Bounce.isBoom({})).to.be.false();
-        });
-
-        it('identifies object with isBoom as non-boom', () => {
-
-            expect(Bounce.isBoom({ isBoom: true })).to.be.false();
-        });
-    });
-
     describe('isError()', () => {
 
         it('identifies Error as error', () => {
@@ -494,7 +471,7 @@ describe('Bounce', () => {
 
         it('identifies object as non-error', () => {
 
-            expect(Bounce.isBoom({})).to.be.false();
+            expect(Bounce.isError({})).to.be.false();
         });
     });
 

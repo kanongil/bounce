@@ -12,10 +12,10 @@
     "catch"
   ],
   "dependencies": {
-    "@hapi/boom": "^10.0.1",
     "@hapi/hoek": "^11.0.4"
   },
   "devDependencies": {
+    "@hapi/boom": "^10.0.1",
     "@hapi/code": "^9.0.0",
     "@hapi/eslint-plugin": "^7.0.0",
     "@hapi/lab": "^26.0.0"
