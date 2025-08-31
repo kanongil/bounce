@@ -263,7 +263,7 @@ describe('Bounce', () => {
             const nonErr = { x: 1 };
 
             try {
-                Bounce.rethrow(nonErr, { x: 1 });
+                Bounce.rethrow(nonErr, { x: 1 }, { strict: false });
             }
             catch (err) {
                 var error = err;
@@ -319,7 +319,7 @@ describe('Bounce', () => {
         it('preserves non-errors', () => {
 
             try {
-                Bounce.rethrow('error', []);
+                Bounce.rethrow('error', [], { strict: false });
             }
             catch (err) {
                 var error = err;
@@ -482,7 +482,7 @@ describe('Bounce', () => {
             const orig = 'error';
 
             try {
-                Bounce.ignore(orig, []);
+                Bounce.ignore(orig, [], { strict: false });
             }
             catch (err) {
                 var error = err;

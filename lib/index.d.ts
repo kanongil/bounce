@@ -37,7 +37,7 @@ interface BounceOptions {
     return?: boolean | undefined;
 
     /**
-     * If `true`, any non-`Error` `err` throws a`TypeError`. Defaults to `false`.
+     * If `true`, any non-`Error` `err` throws a`TypeError`. Defaults to `true`.
      */
     strict?: boolean | undefined;  
 
