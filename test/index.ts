@@ -8,10 +8,10 @@ const { expect } = Lab.types;
 // rethrow()
 
 expect.type<void>(Bounce.rethrow(new Error(), 'system'));
-expect.type<void>(Bounce.rethrow(123, Boom.Boom));
+expect.type<void>(Bounce.rethrow(123, Boom.Boom, { strict: false }));
 expect.type<void>(Bounce.rethrow(new TypeError(), [Boom.Boom, RangeError, { prop: true }]));
 expect.type<TypeError | undefined>(Bounce.rethrow(new TypeError(), Boom.Boom, { return: true }));
-expect.type<RangeError | undefined>(Bounce.rethrow(null, Boom.Boom, { return: true, override: new RangeError() }));
+expect.type<RangeError | undefined>(Bounce.rethrow(null, Boom.Boom, { strict: false, return: true, override: new RangeError() }));
 expect.type<(TypeError & { prop: string }) | undefined>(Bounce.rethrow(new TypeError(), Boom.Boom, { return: true, decorate: { prop: 'ok' } }));
 
 expect.error(Bounce.rethrow(new Error()));
@@ -27,7 +27,7 @@ expect.type<void>(Bounce.ignore(new TypeError(), 'system'));
 expect.type<void>(Bounce.ignore(new Boom.Boom(), Boom.Boom));
 expect.type<void>(Bounce.ignore(new RangeError(), [Boom.Boom, RangeError, { prop: true }]));
 expect.type<TypeError | undefined>(Bounce.ignore(new TypeError(), Boom.Boom, { return: true }));
-expect.type<RangeError | undefined>(Bounce.ignore(null, Boom.Boom, { return: true, override: new RangeError() }));
+expect.type<RangeError | undefined>(Bounce.ignore(null, Boom.Boom, { return: true, override: new RangeError(), strict: false }));
 expect.type<(TypeError & { prop: string }) | undefined>(Bounce.ignore(new TypeError(), Boom.Boom, { return: true, decorate: { prop: 'ok' } }));
 
 // Narrows the error type

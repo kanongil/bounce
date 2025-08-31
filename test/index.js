@@ -263,7 +263,7 @@ describe('Bounce', () => {
             const nonErr = { x: 1 };
 
             try {
-                Bounce.rethrow(nonErr, { x: 1 });
+                Bounce.rethrow(nonErr, { x: 1 }, { strict: false });
             }
             catch (err) {
                 var error = err;
@@ -319,7 +319,7 @@ describe('Bounce', () => {
         it('preserves non-errors', () => {
 
             try {
-                Bounce.rethrow('error', []);
+                Bounce.rethrow('error', [], { strict: false });
             }
             catch (err) {
                 var error = err;
@@ -375,6 +375,31 @@ describe('Bounce', () => {
 
             expect(error).to.shallow.equal(orig);
             expect(error).to.be.an.error('Something');
+        });
+
+        it('always throws TypeError for non-errors when strict', () => {
+
+            const orig = 'error';
+
+            try {
+                Bounce.rethrow(orig, [], { strict: true });
+            }
+            catch (err) {
+                var error1 = err;
+            }
+
+            expect(error1).to.be.an.error(TypeError);
+            expect(error1.cause).to.shallow.equal(orig);
+
+            try {
+                Bounce.rethrow(orig, [], { strict: true });
+            }
+            catch (err) {
+                var error2 = err;
+            }
+
+            expect(error2).to.be.an.error(TypeError);
+            expect(error2.cause).to.shallow.equal(orig);
         });
     });
 
@@ -457,7 +482,7 @@ describe('Bounce', () => {
             const orig = 'error';
 
             try {
-                Bounce.ignore(orig, []);
+                Bounce.ignore(orig, [], { strict: false });
             }
             catch (err) {
                 var error = err;
@@ -496,6 +521,31 @@ describe('Bounce', () => {
 
             expect(error).to.shallow.equal(orig);
             expect(error).to.be.an.error('Something');
+        });
+
+        it('always throws TypeError for non-errors when strict', () => {
+
+            const orig = 'error';
+
+            try {
+                Bounce.ignore(orig, [], { strict: true });
+            }
+            catch (err) {
+                var error1 = err;
+            }
+
+            expect(error1).to.be.an.error(TypeError);
+            expect(error1.cause).to.shallow.equal(orig);
+
+            try {
+                Bounce.ignore(orig, [], { strict: true });
+            }
+            catch (err) {
+                var error2 = err;
+            }
+
+            expect(error2).to.be.an.error(TypeError);
+            expect(error2.cause).to.shallow.equal(orig);
         });
     });
 
