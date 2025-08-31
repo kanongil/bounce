@@ -23,18 +23,23 @@ interface BounceOptions {
     /**
      * An object which is assigned to the `err`, copying the properties onto the error.
      */
-    decorate?: { [key: string]: any };
+    decorate?: { [key: string]: any } | undefined;
 
     /**
      * An error used to override `err` when `err` matches.
      * If used with `decorate`, the `override` object is modified.
      */
-    override?: Error;
+    override?: Error | undefined;
 
     /**
      * If `true`, the error is returned instead of thrown. Defaults to `false`.
      */
-    return?: boolean;
+    return?: boolean | undefined;
+
+    /**
+     * An `AbortSignal`. Throws `signal.reason` if it has already been aborted.
+     */
+    signal?: AbortSignal | undefined;
 }
 
 /**
