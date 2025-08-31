@@ -60,7 +60,7 @@ export function rethrow<E extends Error, D extends Decoration>(err: any, types: 
 export function rethrow<T extends object, D extends Decoration>(err: T, types: TypeRule | TypeRule[], options: BounceOptions & { return: true, decorate: D }): (T & D) | undefined;
 export function rethrow<E extends Error>(err: any, types: TypeRule | TypeRule[], options: BounceOptions & { return: true, override: E }): E | undefined;
 export function rethrow<T>(err: T, types: TypeRule | TypeRule[], options: BounceOptions & { return: true }): T | undefined;
-export function rethrow(err: any, types: TypeRule | TypeRule[], options?: { strict: true }): asserts err is Error;
+export function rethrow(err: any, types: TypeRule | TypeRule[], options?: BounceOptions & { strict?: true | undefined }): asserts err is Error;
 export function rethrow(err: any, types: TypeRule | TypeRule[], options?: BounceOptions): void;
 
 /**
