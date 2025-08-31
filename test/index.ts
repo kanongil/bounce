@@ -1,5 +1,6 @@
 import * as Bounce from '..';
 import * as Boom from '@hapi/boom';
+import * as Hoek from '@hapi/hoek';
 import * as Lab from '@hapi/lab';
 
 const { expect } = Lab.types;
@@ -96,6 +97,9 @@ expect.type<boolean>(Bounce.isAbort(0));
         expect.type<Error>(err);                       // Narrows type
         expect.type<'AbortError'>(err.name);           // Narrows name
     }
+
+    Bounce.ignore(err, 'abort');
+    expect.type<'AbortError'>(err.name);               // Narrows name
 }
 
 expect.error(Bounce.isAbort());
@@ -104,11 +108,19 @@ expect.error(Bounce.isAbort());
 
 expect.type<boolean>(Bounce.isTimeout(0));
 {
-    const err = AbortSignal.timeout(1).reason as any;
+    const timeout = AbortSignal.timeout(1);
+    const err = await new Promise<any>((resolve) => {
+        
+        timeout.onabort = () => resolve(timeout.reason);
+    });
+
     if (Bounce.isTimeout(err)) {
         expect.type<Error>(err);                       // Narrows type
         expect.type<'TimeoutError'>(err.name);         // Narrows name
     }
+
+    Bounce.ignore(err, 'timeout');
+    expect.type<'TimeoutError'>(err.name);             // Narrows name
 }
 
 expect.error(Bounce.isTimeout());
