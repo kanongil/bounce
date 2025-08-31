@@ -403,12 +403,12 @@ describe('Bounce', () => {
         });
     });
 
-    describe('ignore()', () => {
+    describe('assert()', () => {
 
         it('ignores system errors', () => {
 
             try {
-                Bounce.ignore(new Error('Something'), 'system');
+                Bounce.assert(new Error('Something'), 'system');
             }
             catch (err) {
                 var error1 = err;
@@ -417,7 +417,7 @@ describe('Bounce', () => {
             expect(error1).to.be.an.error('Something', Error);
 
             try {
-                Bounce.ignore(new URIError('Something'), 'system');
+                Bounce.assert(new URIError('Something'), 'system');
             }
             catch (err) {
                 var error2 = err;
@@ -429,7 +429,7 @@ describe('Bounce', () => {
         it('ignores boom errors', () => {
 
             try {
-                Bounce.ignore(new Error('Something'), Boom.Boom);
+                Bounce.assert(new Error('Something'), Boom.Boom);
             }
             catch (err) {
                 var error1 = err;
@@ -438,7 +438,7 @@ describe('Bounce', () => {
             expect(error1).to.be.an.error('Something', Error);
 
             try {
-                Bounce.ignore(Boom.badRequest('Something'), Boom.Boom);
+                Bounce.assert(Boom.badRequest('Something'), Boom.Boom);
             }
             catch (err) {
                 var error2 = err;
@@ -450,7 +450,7 @@ describe('Bounce', () => {
         it('ignores boom/system errors', () => {
 
             try {
-                Bounce.ignore(new Error('Something'), [Boom.Boom, 'system']);
+                Bounce.assert(new Error('Something'), [Boom.Boom, 'system']);
             }
             catch (err) {
                 var error1 = err;
@@ -459,7 +459,7 @@ describe('Bounce', () => {
             expect(error1).to.be.an.error('Something', Error);
 
             try {
-                Bounce.ignore(Boom.badRequest('Something'), [Boom.Boom, 'system']);
+                Bounce.assert(Boom.badRequest('Something'), [Boom.Boom, 'system']);
             }
             catch (err) {
                 var error2 = err;
@@ -468,7 +468,7 @@ describe('Bounce', () => {
             expect(error2).to.not.exist();
 
             try {
-                Bounce.ignore(new ReferenceError('Something'), [Boom.Boom, 'system']);
+                Bounce.assert(new ReferenceError('Something'), [Boom.Boom, 'system']);
             }
             catch (err) {
                 var error3 = err;
@@ -482,7 +482,7 @@ describe('Bounce', () => {
             const orig = 'error';
 
             try {
-                Bounce.ignore(orig, [], { strict: false });
+                Bounce.assert(orig, [], { strict: false });
             }
             catch (err) {
                 var error = err;
@@ -497,7 +497,7 @@ describe('Bounce', () => {
             const signal = AbortSignal.abort(new Error('Fail'));
 
             try {
-                Bounce.ignore(orig, 'system', { signal });
+                Bounce.assert(orig, 'system', { signal });
             }
             catch (err) {
                 var error = err;
@@ -513,7 +513,7 @@ describe('Bounce', () => {
             const signal = new AbortController().signal;
 
             try {
-                Bounce.ignore(orig, 'system', { signal });
+                Bounce.assert(orig, 'system', { signal });
             }
             catch (err) {
                 var error = err;
@@ -528,7 +528,7 @@ describe('Bounce', () => {
             const orig = 'error';
 
             try {
-                Bounce.ignore(orig, [], { strict: true });
+                Bounce.assert(orig, [], { strict: true });
             }
             catch (err) {
                 var error1 = err;
@@ -538,7 +538,7 @@ describe('Bounce', () => {
             expect(error1.cause).to.shallow.equal(orig);
 
             try {
-                Bounce.ignore(orig, [], { strict: true });
+                Bounce.assert(orig, [], { strict: true });
             }
             catch (err) {
                 var error2 = err;

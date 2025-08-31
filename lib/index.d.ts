@@ -73,26 +73,26 @@ export function rethrow(err: any, types: TypeRule | TypeRule[], options?: Bounce
  * 
  * @returns possibly an `Error` depending on value of the `return` and `decorate` options.
  */
-export function ignore<E extends Error, D extends Decoration>(err: any, types: TypeRule | TypeRule[], options: BounceOptions & { return: true, decorate: D, override: E }): (E & D) | undefined;
-export function ignore<T extends object, D extends Decoration>(err: T, types: TypeRule | TypeRule[], options: BounceOptions & { return: true, decorate: D }): (T & D) | undefined;
-export function ignore<E extends Error>(err: any, types: TypeRule | TypeRule[], options: BounceOptions & { return: true, override: E }): E | undefined;
-export function ignore<T>(err: T, types: TypeRule | TypeRule[], options: BounceOptions & { return: true }): T | undefined;
-export function ignore<T extends TypeRule>(err: any, types: T, options: { return?: false | undefined }): asserts err is TypeMapping<T>;
-export function ignore<T extends TypeRule>(err: any, types: T): asserts err is TypeMapping<T>;
-export function ignore(err: any, types: TypeRule | TypeRule[], options: { return?: false | undefined }): asserts err is Error;
-export function ignore(err: any, types: TypeRule | TypeRule[]): asserts err is Error;
-export function ignore(err: any, types: TypeRule | TypeRule[], options?: BounceOptions): void;
+export function assert<E extends Error, D extends Decoration>(err: any, types: TypeRule | TypeRule[], options: BounceOptions & { return: true, decorate: D, override: E }): (E & D) | undefined;
+export function assert<T extends object, D extends Decoration>(err: T, types: TypeRule | TypeRule[], options: BounceOptions & { return: true, decorate: D }): (T & D) | undefined;
+export function assert<E extends Error>(err: any, types: TypeRule | TypeRule[], options: BounceOptions & { return: true, override: E }): E | undefined;
+export function assert<T>(err: T, types: TypeRule | TypeRule[], options: BounceOptions & { return: true }): T | undefined;
+export function assert<T extends TypeRule>(err: any, types: T, options: { return?: false | undefined }): asserts err is TypeMapping<T>;
+export function assert<T extends TypeRule>(err: any, types: T): asserts err is TypeMapping<T>;
+export function assert(err: any, types: TypeRule | TypeRule[], options: { return?: false | undefined }): asserts err is Error;
+export function assert(err: any, types: TypeRule | TypeRule[]): asserts err is Error;
+export function assert(err: any, types: TypeRule | TypeRule[], options?: BounceOptions): void;
 
-type Action = 'rethrow' | 'ignore';
+type Action = 'rethrow' | 'assert';
 
 /**
- * Awaits for the value to resolve in the background and then apply either the {@link rethrow `rethrow()`} or {@link rethrow `ignore()`} action.
+ * Awaits for the value to resolve in the background and then apply either the {@link rethrow `rethrow()`} or {@link rethrow `assert()`} action.
  *
  * @param operation - a function, promise, or value that is `await`ed on inside a `try...catch`
  * and any error thrown processed by the `action` rule.
- * @param action - one of `'rethrow'` or`'ignore'`. Defaults to`'rethrow'`.
- * @param types - same as the `types` argument passed to {@link rethrow `rethrow()`} or {@link rethrow `ignore()`}. Defaults to `'system'`.
- * @param options - same as the {@link BounceOptions `options`} argument passed to {@link rethrow `rethrow()`} or {@link rethrow `ignore()`}.
+ * @param action - one of `'rethrow'` or `'assert'`. Defaults to `'rethrow'`.
+ * @param types - same as the `types` argument passed to {@link rethrow `rethrow()`} or {@link rethrow `assert()`}. Defaults to `'system'`.
+ * @param options - same as the {@link BounceOptions `options`} argument passed to {@link rethrow `rethrow()`} or {@link rethrow `assert()`}.
  */
 export function background<E extends Error, D extends Decoration>(operation: any, action?: Action, types?: TypeRule | TypeRule[], options?: BounceOptions & { return: true, override: E, decorate: D }): Promise<(E & D) | undefined>;
 export function background<E extends Error>(operation: any, action?: Action, types?: TypeRule | TypeRule[], options?: BounceOptions & { return: true, override: E }): Promise<E | undefined>;

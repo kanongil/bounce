@@ -94,20 +94,20 @@ Throws the error passed if it matches any of the specified rules where:
     - `strict` - if `true`, any non-`Error` `err` throws a `TypeError`. Defaults to `true`.
     - `signal` - an `AbortSignal`. Throws `signal.reason` if it has already been aborted.
 
-### `ignore(err, types, [options])`
+### `assert(err, types, [options])`
 
 The opposite action of `rethrow()`. Ignores any errors matching the specified `types`. Any error
 not matching is thrown after applying the `options`.
 
 ### `background(operation, [action], [types], [options])`
 
-Awaits for the value to resolve in the background and then apply either the `rethrow()` or `ignore()`
+Awaits for the value to resolve in the background and then apply either the `rethrow()` or `assert()`
 actions where:
 - `operation` - a function, promise, or value that is `await`ed on inside a `try...catch` and any
   error thrown processed by the `action` rule.
-- `action` - one of `'rethrow'` or `'ignore'`. Defaults to `'rethrow'`.
-- `types` - same as the `types` argument passed to `rethrow()` or `ignore()`. Defaults to `'system'`.
-- `options` - same as the `options` argument passed to `rethrow()` or `ignore()`.
+- `action` - one of `'rethrow'` or `'assert'`. Defaults to `'rethrow'`.
+- `types` - same as the `types` argument passed to `rethrow()` or `assert()`. Defaults to `'system'`.
+- `options` - same as the `options` argument passed to `rethrow()` or `assert()`.
 
 ### `isSystem(err)`
 

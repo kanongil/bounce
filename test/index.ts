@@ -41,26 +41,26 @@ expect.error(Bounce.rethrow(new Error(), Boom.Boom, { unknown: true }));
 expect.error(Bounce.rethrow(new Error(), Boom.Boom, { decorate: 123 }));
 expect.error(Bounce.rethrow(new Error(), Boom.Boom, { override: {} }));
 
-// ignore()
+// assert()
 
-expect.type<void>(Bounce.ignore(new TypeError(), 'system'));
-expect.type<void>(Bounce.ignore(new Boom.Boom(), Boom.Boom));
-expect.type<void>(Bounce.ignore(new RangeError(), [Boom.Boom, RangeError, { prop: true }]));
-expect.type<TypeError | undefined>(Bounce.ignore(new TypeError(), Boom.Boom, { return: true }));
-expect.type<RangeError | undefined>(Bounce.ignore(null, Boom.Boom, { return: true, override: new RangeError(), strict: false }));
-expect.type<(TypeError & { prop: string }) | undefined>(Bounce.ignore(new TypeError(), Boom.Boom, { return: true, decorate: { prop: 'ok' } }));
+expect.type<void>(Bounce.assert(new TypeError(), 'system'));
+expect.type<void>(Bounce.assert(new Boom.Boom(), Boom.Boom));
+expect.type<void>(Bounce.assert(new RangeError(), [Boom.Boom, RangeError, { prop: true }]));
+expect.type<TypeError | undefined>(Bounce.assert(new TypeError(), Boom.Boom, { return: true }));
+expect.type<RangeError | undefined>(Bounce.assert(null, Boom.Boom, { return: true, override: new RangeError(), strict: false }));
+expect.type<(TypeError & { prop: string }) | undefined>(Bounce.assert(new TypeError(), Boom.Boom, { return: true, decorate: { prop: 'ok' } }));
 
 // Narrows the error type
 
 {
     const error = new TypeError() as unknown;
-    Bounce.ignore(error, TypeError);
+    Bounce.assert(error, TypeError);
     expect.type<Error>(error);
 }
 
 {
     const error = new Boom.Boom() as unknown;
-    Bounce.ignore(error, Boom.Boom);
+    Bounce.assert(error, Boom.Boom);
     expect.type<Boom.Boom>(error);
 }
 
@@ -70,20 +70,20 @@ expect.type<(TypeError & { prop: string }) | undefined>(Bounce.ignore(new TypeEr
     }
 
     const error = new TestError() as unknown;
-    Bounce.ignore(error, TestError);
+    Bounce.assert(error, TestError);
     expect.type<TestError>(error);
 }
 
-expect.error(Bounce.ignore(new Error()));
-expect.error(Bounce.ignore(new Error(), 'unknown'));
-expect.error(Bounce.ignore(new Error(), Boom.Boom, true));
-expect.error(Bounce.ignore(new Error(), Boom.Boom, { unknown: true }));
-expect.error(Bounce.ignore(new Error(), Boom.Boom, { decorate: 123 }));
-expect.error(Bounce.ignore(new Error(), Boom.Boom, { override: {} }));
+expect.error(Bounce.assert(new Error()));
+expect.error(Bounce.assert(new Error(), 'unknown'));
+expect.error(Bounce.assert(new Error(), Boom.Boom, true));
+expect.error(Bounce.assert(new Error(), Boom.Boom, { unknown: true }));
+expect.error(Bounce.assert(new Error(), Boom.Boom, { decorate: 123 }));
+expect.error(Bounce.assert(new Error(), Boom.Boom, { override: {} }));
 
 // background()
 
-expect.type<Promise<void>>(Bounce.background(async () => undefined, 'ignore', 'system', { decorate: { a: true } }));
+expect.type<Promise<void>>(Bounce.background(async () => undefined, 'assert', 'system', { decorate: { a: true } }));
 expect.type<Promise<any>>(Bounce.background(async () => undefined, 'rethrow', [RangeError], { return: true }));
 expect.type<Promise<TypeError | undefined>>(Bounce.background(async () => undefined, undefined, undefined, { return: true, override: new TypeError() }));
 
@@ -118,7 +118,7 @@ expect.type<boolean>(Bounce.isAbort(0));
         expect.type<'AbortError'>(err.name);           // Narrows name
     }
 
-    Bounce.ignore(err, 'abort');
+    Bounce.assert(err, 'abort');
     expect.type<'AbortError'>(err.name);               // Narrows name
 }
 
@@ -139,7 +139,7 @@ expect.type<boolean>(Bounce.isTimeout(0));
         expect.type<'TimeoutError'>(err.name);         // Narrows name
     }
 
-    Bounce.ignore(err, 'timeout');
+    Bounce.assert(err, 'timeout');
     expect.type<'TimeoutError'>(err.name);             // Narrows name
 }
 
