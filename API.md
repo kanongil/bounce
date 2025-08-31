@@ -91,6 +91,7 @@ Throws the error passed if it matches any of the specified rules where:
     - `override` - an error used to override `err` when `err` matches. If used with `decorate`,
       the `override` object is modified.
     - `return` - if `true`, the error is returned instead of thrown. Defaults to `false`.
+    - `strict` - if `true`, any non-`Error` `err` throws a `TypeError`. Defaults to `false`.
     - `signal` - an `AbortSignal`. Throws `signal.reason` if it has already been aborted.
 
 ### `ignore(err, types, [options])`

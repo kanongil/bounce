@@ -37,6 +37,11 @@ interface BounceOptions {
     return?: boolean | undefined;
 
     /**
+     * If `true`, any non-`Error` `err` throws a`TypeError`. Defaults to `false`.
+     */
+    strict?: boolean | undefined;  
+
+    /**
      * An `AbortSignal`. Throws `signal.reason` if it has already been aborted.
      */
     signal?: AbortSignal | undefined;
