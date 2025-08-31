@@ -14,6 +14,26 @@ expect.type<TypeError | undefined>(Bounce.rethrow(new TypeError(), Boom.Boom, { 
 expect.type<RangeError | undefined>(Bounce.rethrow(null, Boom.Boom, { strict: false, return: true, override: new RangeError() }));
 expect.type<(TypeError & { prop: string }) | undefined>(Bounce.rethrow(new TypeError(), Boom.Boom, { return: true, decorate: { prop: 'ok' } }));
 
+// Narrows the error type
+
+{
+    const error = new Error() as unknown;
+    Bounce.rethrow(error, 'system');
+    expect.type<Error>(error);
+}
+
+{
+    const error = new Error() as unknown;
+    Bounce.rethrow(error, 'system', { strict: true } as { strict: boolean });
+    expect.type<unknown>(error);
+}
+
+{
+    const error = 123;
+    Bounce.rethrow(error, 'system', { strict: false });
+    expect.type<number>(error);
+}
+
 expect.error(Bounce.rethrow(new Error()));
 expect.error(Bounce.rethrow(new Error(), 'unknown'));
 expect.error(Bounce.rethrow(new Error(), Boom.Boom, true));
