@@ -50,6 +50,15 @@ describe('Bounce', () => {
             expect(error).to.be.an.error(TypeError);
         });
 
+        it('throws TypeError on unhandled types', () => {
+
+            expect(() => Bounce.rethrow(new Error(), false)).to.throw(TypeError, 'Missing or invalid "types" argument');
+            expect(() => Bounce.rethrow(new Error(), 'invalid')).to.throw(TypeError, 'Invalid "types" argument');
+            expect(() => Bounce.rethrow(new Error(), ['invalid'])).to.throw(TypeError, 'Invalid "types" argument');
+            expect(() => Bounce.rethrow(new Error(), 123)).to.throw(TypeError, 'Invalid "types" argument');
+            expect(() => Bounce.rethrow(new Error(), () => 123)).to.throw(TypeError, 'Invalid "types" argument');
+        });
+
         it('rethrows only system errors', () => {
 
             try {
